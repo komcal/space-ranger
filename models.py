@@ -1,5 +1,6 @@
 import arcade
 import arcade.key
+import random
 
 from random import randint
 
@@ -62,6 +63,8 @@ class World:
         if self.ship[0].hit(self.gold, 20):
             self.gold.random_location()
             self.score += 1
+            self.ship.append(Ship(self, random.randrange(self.width), random.randrange(self.height)))
+
         
     def on_key_press(self, key, key_modifiers):
         if key == arcade.key.LEFT:
