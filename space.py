@@ -3,7 +3,7 @@ import arcade.key
 
 from models import World, Ship
  
-SCREEN_WIDTH = 400
+SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 800
 
 class ModelSprite(arcade.Sprite):

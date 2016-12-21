@@ -29,8 +29,9 @@ class Ship(Model):
         self.angle = Ship.ANGLE[3]
  
     def switch_direction(self, direction):
-        self.direction = direction
-        self.angle = Ship.ANGLE[direction]
+        if (self.direction == Ship.DIR_LEFT and direction != Ship.DIR_RIGHT) or (self.direction == Ship.DIR_UP and direction != Ship.DIR_DOWN) or (self.direction == Ship.DIR_DOWN and direction != Ship.DIR_UP) or (self.direction == Ship.DIR_RIGHT and direction != Ship.DIR_LEFT):
+            self.direction = direction
+            self.angle = Ship.ANGLE[direction]
         
     def animate(self, delta):
         if self.direction == Ship.DIR_LEFT:
@@ -50,14 +51,14 @@ class World:
     def __init__(self, width, height):
         self.width = width
         self.height = height 
-        self.ship = Ship(self, 100, 100)
+        self.ship = Ship(self, 100, 700)
         self.gold = Gold(self, 300, 300)
         self.score = 0
   
     def animate(self, delta):
         self.ship.animate(delta)
         
-        if self.ship.hit(self.gold, 15):
+        if self.ship.hit(self.gold, 20):
             self.gold.random_location()
             self.score += 1
         
