@@ -20,13 +20,14 @@ class Ship(Model):
     DIR_RIGHT = 2
     DIR_DOWN = 3
     ANGLE = [90, 0, -90, 180]
-    SPEED = 3
+    SPEED = 2
     
-    def __init__(self, world, x, y):
+    def __init__(self, world, x, y, number):
         self.world = world
         super().__init__(world, x, y, 0)
         self.x = x
         self.y = y
+        self.number = number
         self.direction = Ship.DIR_DOWN
         self.angle = Ship.ANGLE[3]
  
@@ -50,31 +51,39 @@ class Ship(Model):
                 self.y -= Ship.SPEED
             
 class World:
+    current_ship = 0
+    count_ship = 0
     def __init__(self, width, height):
         self.width = width
         self.height = height 
-        self.ship = [Ship(self, 100, 700)]
+        self.ship = [Ship(self, 100, 700, 0)]
         self.gold = Gold(self, 300, 300)
         self.score = 0
   
     def animate(self, delta):
-        self.ship[0].animate(delta)
+        for ship in self.ship:
+            ship.animate(delta)
         
-        if self.ship[0].hit(self.gold, 20):
+        if self.ship[self.current_ship].hit(self.gold, 20):
             self.gold.random_location()
             self.score += 1
-            self.ship.append(Ship(self, random.randrange(self.width), random.randrange(self.height)))
+            self.count_ship += 1
+            self.ship.append(Ship(self, random.randrange(self.width), random.randrange(self.height),self.count_ship))
 
         
     def on_key_press(self, key, key_modifiers):
         if key == arcade.key.LEFT:
-            self.ship[0].switch_direction(0)
+            self.ship[self.current_ship].switch_direction(0)
         if key == arcade.key.UP:
-            self.ship[0].switch_direction(1)
+            self.ship[self.current_ship].switch_direction(1)
         if key == arcade.key.RIGHT:
-            self.ship[0].switch_direction(2)
+            self.ship[self.current_ship].switch_direction(2)
         if key == arcade.key.DOWN:
-            self.ship[0].switch_direction(3)
+            self.ship[self.current_ship].switch_direction(3)
+        if key == arcade.key.SPACE:
+            if(self.current_ship == self.count_ship):
+                self.current_ship = -1
+            self.current_ship += 1
             
 class Gold(Model):
     def __init__(self, world, x, y):
