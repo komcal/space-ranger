@@ -3,8 +3,8 @@ import arcade.key
 
 from models import World, Ship
  
-SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 800
+SCREEN_WIDTH = 1600
+SCREEN_HEIGHT = 1000
 
 class ModelSprite(arcade.Sprite):
     def __init__(self, *args, **kwargs):
@@ -27,7 +27,7 @@ class SpaceGameWindow(arcade.Window):
  
         arcade.set_background_color(arcade.color.BLACK)
         self.world = World(width, height)
-        self.ship_sprite = ModelSprite('images/ship.png',model=self.world.ship)
+        self.ship_sprite = ModelSprite('images/ship.png',model=self.world.ship[0])
         self.gold_sprite = ModelSprite('images/Gold.png',model=self.world.gold)
 
  
