@@ -1,6 +1,14 @@
-class Ship:
+class Model:
+    def __init__(self, world, x, y, angle):
+        self.world = world
+        self.x = x
+        self.y = y
+        self.angle = 0
+        
+class Ship(Model):
     def __init__(self, world, x, y):
         self.world = world
+        super().__init__(world, x, y, 0)
         self.x = x
         self.y = y
         self.direction = Ship.DIR_VERTICAL
@@ -28,6 +36,7 @@ class World:
         self.width = width
         self.height = height 
         self.ship = Ship(self, 100, 100)
+        self.gold = Gold(self, 400, 400)
   
     def animate(self, delta):
         self.ship.animate(delta)
@@ -36,8 +45,9 @@ class World:
         if key == arcade.key.SPACE:
             self.ship.switch_direction()
             
-class Gold:
+class Gold(Model):
     def __init__(self, world, x, y):
         self.world = world
+        super().__init__(world, x, y, 0)
         self.x = x
         self.y = y
