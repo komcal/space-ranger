@@ -67,7 +67,7 @@ class World:
         if self.ship[self.current_ship].hit(self.star, 30):
             self.star.random_location()
             self.score += 1
-            if self.count_ship < 4:
+            if self.count_ship < 4 and self.score % 5 == 0:
                 self.count_ship += 1
                 self.ship.append(Ship(self, random.randrange(self.width), random.randrange(self.height),self.count_ship))
 
