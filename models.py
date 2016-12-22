@@ -57,18 +57,19 @@ class World:
         self.width = width
         self.height = height 
         self.ship = [Ship(self, 100, 700, 0)]
-        self.gold = Gold(self, 300, 300)
+        self.star = Star(self, 300, 300)
         self.score = 0
   
     def animate(self, delta):
         for ship in self.ship:
             ship.animate(delta)
         
-        if self.ship[self.current_ship].hit(self.gold, 20):
-            self.gold.random_location()
+        if self.ship[self.current_ship].hit(self.star, 30):
+            self.star.random_location()
             self.score += 1
-            self.count_ship += 1
-            self.ship.append(Ship(self, random.randrange(self.width), random.randrange(self.height),self.count_ship))
+            if self.count_ship < 4:
+                self.count_ship += 1
+                self.ship.append(Ship(self, random.randrange(self.width), random.randrange(self.height),self.count_ship))
 
         
     def on_key_press(self, key, key_modifiers):
@@ -84,7 +85,7 @@ class World:
             if self.count_ship >= key - 49:
                 self.current_ship = key - 49
             
-class Gold(Model):
+class Star(Model):
     def __init__(self, world, x, y):
         self.world = world
         super().__init__(world, x, y, 0)
