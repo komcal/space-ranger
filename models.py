@@ -39,13 +39,13 @@ class Ship(Model):
             if self.direction == Ship.DIR_LEFT:
                 if self.x > Ship.SPEED:
                     self.x -= Ship.SPEED
-            if self.direction == Ship.DIR_RIGHT:
+            elif self.direction == Ship.DIR_RIGHT:
                 if self.x < self.world.width:
                     self.x += Ship.SPEED
-            if self.direction == Ship.DIR_UP:
+            elif self.direction == Ship.DIR_UP:
                 if self.y < self.world.height:
                     self.y += Ship.SPEED
-            if self.direction == Ship.DIR_DOWN:
+            elif self.direction == Ship.DIR_DOWN:
                 if self.y > Ship.SPEED:
                     self.y -= Ship.SPEED
             
