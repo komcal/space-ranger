@@ -37,18 +37,21 @@ class Ship(Model):
             self.angle = Ship.ANGLE[direction]
         
     def animate(self, delta):
-        if self.direction == Ship.DIR_LEFT:
-            if self.x > Ship.SPEED:
-                self.x -= Ship.SPEED
-        if self.direction == Ship.DIR_RIGHT:
-            if self.x < self.world.width:
-                self.x += Ship.SPEED
-        if self.direction == Ship.DIR_UP:
-            if self.y < self.world.height:
-                self.y += Ship.SPEED
-        if self.direction == Ship.DIR_DOWN:
-            if self.y > Ship.SPEED:
-                self.y -= Ship.SPEED
+        if self.world.is_end_game(self):
+            print('game end.')
+        else:
+            if self.direction == Ship.DIR_LEFT:
+                if self.x > Ship.SPEED:
+                    self.x -= Ship.SPEED
+            if self.direction == Ship.DIR_RIGHT:
+                if self.x < self.world.width:
+                    self.x += Ship.SPEED
+            if self.direction == Ship.DIR_UP:
+                if self.y < self.world.height:
+                    self.y += Ship.SPEED
+            if self.direction == Ship.DIR_DOWN:
+                if self.y > Ship.SPEED:
+                    self.y -= Ship.SPEED
             
 class World:
     current_ship = 0
@@ -63,13 +66,12 @@ class World:
     def animate(self, delta):
         for ship in self.ship:
             ship.animate(delta)
-        
-        if self.ship[self.current_ship].hit(self.star, 30):
-            self.star.random_location()
-            self.score += 1
-            if self.count_ship < 4 and self.score % 5 == 0:
-                self.count_ship += 1
-                self.ship.append(Ship(self, random.randrange(int(self.width/3), int(self.width*2/3)), random.randrange(int(self.height/3), int(self.height*2/3)),self.count_ship))
+            if ship.hit(self.star, 30):
+                self.star.random_location()
+                self.score += 1
+                if self.count_ship < 4 and self.score % 5 == 0:
+                    self.count_ship += 1
+                    self.ship.append(Ship(self, random.randrange(int(self.width/3), int(self.width*2/3)), random.randrange(int(self.height/3), int(self.height*2/3)),self.count_ship))
 
         
     def on_key_press(self, key, key_modifiers):
@@ -84,7 +86,14 @@ class World:
         if key >= 49 and key <= 53:
             if self.count_ship >= key - 49:
                 self.current_ship = key - 49
-            
+                
+    def is_end_game(self, ship):
+        if ship.y <= 5 or ship.y >= self.height-5 or ship.x <= 5 or ship.x >= self.width-5:
+            return True
+        for index, ship_loop in enumerate(self.ship):
+            if ship.hit(ship_loop, 40) and index != ship.number:
+                return True
+                
 class Star(Model):
     def __init__(self, world, x, y):
         self.world = world
