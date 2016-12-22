@@ -5,6 +5,7 @@ class World:
     count_ship = 0
     BTN_ONE = 49
     BTN_FIVE = 53
+    score_check = [1, 5, 15, 30, 40]
     
     def __init__(self, width, height):
         self.width = width
@@ -19,10 +20,10 @@ class World:
             for ship in self.ship:
                 ship.animate(delta)
                 if ship.hit(self.star, 30) and ship.number == self.star.number:
-                    if self.count_ship < 4 and self.score % 5 == 0:
+                    self.score += 1
+                    if self.count_ship < 4 and self.score == self.score_check[self.count_ship]:
                         self.generate_ship()
                     self.star.random_location()
-                    self.score += 1
 
     def generate_ship(self):
         self.count_ship += 1
