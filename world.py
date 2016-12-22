@@ -3,6 +3,9 @@ from models import *
 class World:
     current_ship = 0
     count_ship = 0
+    BTN_ONE = 49
+    BTN_FIVE = 53
+    
     def __init__(self, width, height):
         self.width = width
         self.height = height 
@@ -26,17 +29,11 @@ class World:
         self.ship.append(Ship(self, random.randrange(int(self.width/3), int(self.width*2/3)), random.randrange(int(self.height/3), int(self.height*2/3)),self.count_ship))
         
     def on_key_press(self, key, key_modifiers):
-        if key == arcade.key.LEFT:
-            self.ship[self.current_ship].switch_direction(0)
-        if key == arcade.key.UP:
-            self.ship[self.current_ship].switch_direction(1)
-        if key == arcade.key.RIGHT:
-            self.ship[self.current_ship].switch_direction(2)
-        if key == arcade.key.DOWN:
-            self.ship[self.current_ship].switch_direction(3)
-        if key >= 49 and key <= 53:
-            if self.count_ship >= key - 49:
-                self.current_ship = key - 49
+        if key >= self.BTN_ONE and key <= self.BTN_FIVE:
+            if self.count_ship >= key - self.BTN_ONE:
+                self.current_ship = key - self.BTN_ONE
+        else:
+            self.ship[self.current_ship].switch_direction(key - arcade.key.LEFT)
                 
     def is_game_end(self, ship):
         if ship.y <= 5 or ship.y >= self.height-5 or ship.x <= 5 or ship.x >= self.width-5:
