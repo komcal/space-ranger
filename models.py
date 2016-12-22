@@ -35,7 +35,6 @@ class Ship(Model):
     def animate(self, delta):
         if self.world.is_game_end(self):
             self.world.game_status = False
-            print('game end.')
         else:
             if self.direction == Ship.DIR_LEFT:
                 if self.x > Ship.SPEED:
@@ -58,5 +57,3 @@ class Star(Model):
         self.x = randint(0, self.world.width - 1)
         self.y = randint(0, self.world.height - 1)
         self.number = random.randrange(self.world.count_ship + 1)
-        print(self.world.count_ship)
-        print(self.number)

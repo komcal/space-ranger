@@ -19,8 +19,6 @@ class World:
             for ship in self.ship:
                 ship.animate(delta)
                 if ship.hit(self.star, 30) and ship.number == self.star.number:
-                    print(self.current_ship)
-                    print(self.star.number)
                     if self.count_ship < 4 and self.score % 5 == 0:
                         self.generate_ship()
                     self.star.random_location()
