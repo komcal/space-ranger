@@ -10,7 +10,7 @@ class World:
         self.width = width
         self.height = height 
         self.ship = [Ship(self, 700, 500, 0)]
-        self.star = Star(self, 300, 300)
+        self.star = Star(self, 400, 400, 0)
         self.score = 0
         self.game_status = True
   
@@ -18,11 +18,13 @@ class World:
         if self.game_status:
             for ship in self.ship:
                 ship.animate(delta)
-                if ship.hit(self.star, 30):
-                    self.star.random_location()
-                    self.score += 1
+                if ship.hit(self.star, 30) and ship.number == self.star.number:
+                    print(self.current_ship)
+                    print(self.star.number)
                     if self.count_ship < 4 and self.score % 5 == 0:
                         self.generate_ship()
+                    self.star.random_location()
+                    self.score += 1
 
     def generate_ship(self):
         self.count_ship += 1

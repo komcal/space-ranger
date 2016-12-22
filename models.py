@@ -6,11 +6,12 @@ from random import randint
 
 
 class Model:
-    def __init__(self, world, x, y, angle):
+    def __init__(self, world, x, y, angle, number):
         self.world = world
         self.x = x
         self.y = y
         self.angle = 0
+        self.number = number
     def hit(self, other, hit_size):
         return (abs(self.x - other.x) <= hit_size) and (abs(self.y - other.y) <= hit_size)
         
@@ -23,13 +24,11 @@ class Ship(Model):
     SPEED = 3
     
     def __init__(self, world, x, y, number):
-        super().__init__(world, x, y, 0)
-        self.number = number
+        super().__init__(world, x, y, 0, number)
         self.direction = random.randrange(4)
         self.angle = Ship.ANGLE[self.direction]
  
     def switch_direction(self, direction):
-        # if (self.direction == Ship.DIR_LEFT and direction != Ship.DIR_RIGHT) or (self.direction == Ship.DIR_UP and direction != Ship.DIR_DOWN) or (self.direction == Ship.DIR_DOWN and direction != Ship.DIR_UP) or (self.direction == Ship.DIR_RIGHT and direction != Ship.DIR_LEFT):
             self.direction = direction
             self.angle = Ship.ANGLE[direction]
         
@@ -52,9 +51,12 @@ class Ship(Model):
                     self.y -= Ship.SPEED
             
 class Star(Model):
-    def __init__(self, world, x, y):
-        super().__init__(world, x, y, 0)
+    def __init__(self, world, x, y, number):
+        super().__init__(world, x, y, 0, number)
         
     def random_location(self):
         self.x = randint(0, self.world.width - 1)
         self.y = randint(0, self.world.height - 1)
+        self.number = random.randrange(self.world.count_ship + 1)
+        print(self.world.count_ship)
+        print(self.number)

@@ -30,11 +30,12 @@ class SpaceGameWindow(arcade.Window):
         self.world = World(width, height)
         self.add_ship_sprite()
             
-        self.star_sprite = ModelSprite('images/star.png',model=self.world.star)
+        self.star_sprite = ModelSprite('images/star-'+str(self.world.star.number)+'.png',model=self.world.star)
 
  
     def on_draw(self):
         self.add_ship_sprite()
+        self.star_sprite = ModelSprite('images/star-'+str(self.world.star.number)+'.png',model=self.world.star)
         arcade.start_render()
         self.star_sprite.draw()
         self.ship_sprite.draw()
