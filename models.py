@@ -32,7 +32,7 @@ class Ship(Model):
         self.angle = Ship.ANGLE[3]
  
     def switch_direction(self, direction):
-        if (self.direction == Ship.DIR_LEFT and direction != Ship.DIR_RIGHT) or (self.direction == Ship.DIR_UP and direction != Ship.DIR_DOWN) or (self.direction == Ship.DIR_DOWN and direction != Ship.DIR_UP) or (self.direction == Ship.DIR_RIGHT and direction != Ship.DIR_LEFT):
+        # if (self.direction == Ship.DIR_LEFT and direction != Ship.DIR_RIGHT) or (self.direction == Ship.DIR_UP and direction != Ship.DIR_DOWN) or (self.direction == Ship.DIR_DOWN and direction != Ship.DIR_UP) or (self.direction == Ship.DIR_RIGHT and direction != Ship.DIR_LEFT):
             self.direction = direction
             self.angle = Ship.ANGLE[direction]
         
@@ -72,6 +72,7 @@ class World:
 
         
     def on_key_press(self, key, key_modifiers):
+        print(key)
         if key == arcade.key.LEFT:
             self.ship[self.current_ship].switch_direction(0)
         if key == arcade.key.UP:
@@ -80,10 +81,10 @@ class World:
             self.ship[self.current_ship].switch_direction(2)
         if key == arcade.key.DOWN:
             self.ship[self.current_ship].switch_direction(3)
-        if key == arcade.key.SPACE:
-            if(self.current_ship == self.count_ship):
-                self.current_ship = -1
-            self.current_ship += 1
+        if key >=49 and key <= 53:
+            if self.count_ship >= key - 49:
+                print('test')
+                self.current_ship = key - 49
             
 class Gold(Model):
     def __init__(self, world, x, y):
