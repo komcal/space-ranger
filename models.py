@@ -37,7 +37,8 @@ class Ship(Model):
             self.angle = Ship.ANGLE[direction]
         
     def animate(self, delta):
-        if self.world.is_end_game(self):
+        if self.world.is_game_end(self):
+            self.world.game_status = False
             print('game end.')
         else:
             if self.direction == Ship.DIR_LEFT:
@@ -62,17 +63,21 @@ class World:
         self.ship = [Ship(self, 700, 500, 0)]
         self.star = Star(self, 300, 300)
         self.score = 0
+        self.game_status = True
   
     def animate(self, delta):
-        for ship in self.ship:
-            ship.animate(delta)
-            if ship.hit(self.star, 30):
-                self.star.random_location()
-                self.score += 1
-                if self.count_ship < 4 and self.score % 5 == 0:
-                    self.count_ship += 1
-                    self.ship.append(Ship(self, random.randrange(int(self.width/3), int(self.width*2/3)), random.randrange(int(self.height/3), int(self.height*2/3)),self.count_ship))
+        if self.game_status:
+            for ship in self.ship:
+                ship.animate(delta)
+                if ship.hit(self.star, 30):
+                    self.star.random_location()
+                    self.score += 1
+                    if self.count_ship < 4 and self.score % 1 == 0:
+                        self.generate_ship()
 
+    def generate_ship(self):
+        self.count_ship += 1
+        self.ship.append(Ship(self, random.randrange(int(self.width/3), int(self.width*2/3)), random.randrange(int(self.height/3), int(self.height*2/3)),self.count_ship))
         
     def on_key_press(self, key, key_modifiers):
         if key == arcade.key.LEFT:
@@ -87,7 +92,7 @@ class World:
             if self.count_ship >= key - 49:
                 self.current_ship = key - 49
                 
-    def is_end_game(self, ship):
+    def is_game_end(self, ship):
         if ship.y <= 5 or ship.y >= self.height-5 or ship.x <= 5 or ship.x >= self.width-5:
             return True
         for index, ship_loop in enumerate(self.ship):
