@@ -23,10 +23,7 @@ class Ship(Model):
     SPEED = 3
     
     def __init__(self, world, x, y, number):
-        self.world = world
         super().__init__(world, x, y, 0)
-        self.x = x
-        self.y = y
         self.number = number
         self.direction = random.randrange(4)
         self.angle = Ship.ANGLE[self.direction]
@@ -72,7 +69,7 @@ class World:
                 if ship.hit(self.star, 30):
                     self.star.random_location()
                     self.score += 1
-                    if self.count_ship < 4 and self.score % 1 == 0:
+                    if self.count_ship < 4 and self.score % 5 == 0:
                         self.generate_ship()
 
     def generate_ship(self):
@@ -101,10 +98,7 @@ class World:
                 
 class Star(Model):
     def __init__(self, world, x, y):
-        self.world = world
         super().__init__(world, x, y, 0)
-        self.x = x
-        self.y = y
         
     def random_location(self):
         self.x = randint(0, self.world.width - 1)
