@@ -1,7 +1,7 @@
 import arcade
 import arcade.key
-
-from models import World, Ship
+from models import Ship
+from world import World
  
 SCREEN_WIDTH = 1600
 SCREEN_HEIGHT = 1000
