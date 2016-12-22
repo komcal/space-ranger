@@ -28,8 +28,8 @@ class Ship(Model):
         self.x = x
         self.y = y
         self.number = number
-        self.direction = Ship.DIR_DOWN
-        self.angle = Ship.ANGLE[3]
+        self.direction = random.randrange(4)
+        self.angle = Ship.ANGLE[self.direction]
  
     def switch_direction(self, direction):
         # if (self.direction == Ship.DIR_LEFT and direction != Ship.DIR_RIGHT) or (self.direction == Ship.DIR_UP and direction != Ship.DIR_DOWN) or (self.direction == Ship.DIR_DOWN and direction != Ship.DIR_UP) or (self.direction == Ship.DIR_RIGHT and direction != Ship.DIR_LEFT):
@@ -56,7 +56,7 @@ class World:
     def __init__(self, width, height):
         self.width = width
         self.height = height 
-        self.ship = [Ship(self, 100, 700, 0)]
+        self.ship = [Ship(self, 700, 500, 0)]
         self.star = Star(self, 300, 300)
         self.score = 0
   
@@ -69,7 +69,7 @@ class World:
             self.score += 1
             if self.count_ship < 4 and self.score % 5 == 0:
                 self.count_ship += 1
-                self.ship.append(Ship(self, random.randrange(self.width), random.randrange(self.height),self.count_ship))
+                self.ship.append(Ship(self, random.randrange(int(self.width/3), int(self.width*2/3)), random.randrange(int(self.height/3), int(self.height*2/3)),self.count_ship))
 
         
     def on_key_press(self, key, key_modifiers):
