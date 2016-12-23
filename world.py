@@ -30,10 +30,10 @@ class World:
         self.ship.append(Ship(self, random.randrange(int(self.width/3), int(self.width*2/3)), random.randrange(int(self.height/3), int(self.height*2/3)),self.count_ship))
         
     def on_key_press(self, key, key_modifiers):
-        if key >= self.BTN_ONE and key <= self.BTN_FIVE:
+        if self.BTN_ONE <= key <= self.BTN_FIVE:
             if self.count_ship >= key - self.BTN_ONE:
                 self.current_ship = key - self.BTN_ONE
-        else:
+        elif arcade.key.LEFT <= key <= arcade.key.DOWN:
             self.ship[self.current_ship].switch_direction(key - arcade.key.LEFT)
                 
     def is_game_end(self, ship):
