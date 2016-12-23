@@ -44,6 +44,9 @@ class SpaceGameWindow(arcade.Window):
         arcade.draw_text(str(self.world.score),
                          self.width - 30, self.height - 30,
                          arcade.color.WHITE, 20)
+        arcade.draw_text(str('CURRENT SHIP: ' + str(self.world.current_ship+1)),
+                         50, self.height - 30,
+                         arcade.color.WHITE, 20)
         if self.world.game_status == False:
             arcade.draw_text(str('Game Over'),
                              self.width/2 - 250, self.height/2,
