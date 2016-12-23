@@ -24,13 +24,9 @@ class ModelSprite(arcade.Sprite):
 class SpaceGameWindow(arcade.Window):
     draw = []
     def __init__(self, width, height):
-        super().__init__(width, height)
- 
+        super().__init__(width, height) 
         arcade.set_background_color(arcade.color.BLACK)
         self.world = World(width, height)
-        self.add_ship_sprite()
-            
-        self.star_sprite = ModelSprite('images/star-'+str(self.world.star.number)+'.png',model=self.world.star)
 
  
     def on_draw(self):
@@ -38,7 +34,6 @@ class SpaceGameWindow(arcade.Window):
         self.star_sprite = ModelSprite('images/star-'+str(self.world.star.number)+'.png',model=self.world.star)
         arcade.start_render()
         self.star_sprite.draw()
-        self.ship_sprite.draw()
         for ship in SpaceGameWindow.draw:
             ship.draw()
         arcade.draw_text(str(self.world.score),
